@@ -19,3 +19,4 @@ recognition.addEventListener("result", (event) => {
 
    socket.emit("chat message", text);
 });
+
