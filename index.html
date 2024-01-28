@@ -7,6 +7,8 @@
       <link rel="stylesheet" href="styles/styles.css" />
    </head>
    <body>
+      <input id="username" type="text" placeholder="Enter name" />
+      <h1 id="putnamebutton">Put name</h1>
       <div id="main-div">
          <ul id="messages"></ul>
       </div>
@@ -17,8 +19,19 @@
       <script>
          var socket = io();
 
+         const username = document.getElementById("username");
+         const putnamebutton = document.getElementById("putnamebutton");
          const form = document.getElementById("form");
          const input = document.getElementById("input");
+
+         putnamebutton.addEventListener("click", (event) => {
+            event.preventDefault();
+            if (username.value) {
+               socket.emit("username", username.value);
+               username.value = "";
+               putnamebutton.innerText = "Update";
+            }
+         });
 
          form.addEventListener("submit", (event) => {
             event.preventDefault();

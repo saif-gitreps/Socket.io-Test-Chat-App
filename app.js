@@ -12,12 +12,16 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-   io.emit("chat message", "A user has connected");
+   socket.broadcast.emit("chat message", "A user has joined the chat");
+   let name;
+   socket.on("username", (username) => {
+      name = username;
+   });
    socket.on("chat message", (message) => {
-      io.emit("chat message", message);
+      io.emit("chat message", (!name ? "Unamed User" : name) + " : " + message);
    });
    socket.on("disconnect", () => {
-      console.log("user disconnected");
+      io.emit("chat message", (!name ? "Unamed User" : name) + " has disconnected");
    });
 });
 
